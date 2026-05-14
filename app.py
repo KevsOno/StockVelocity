@@ -1,7 +1,7 @@
 import streamlit as st
 from utils.auth import check_auth
 from utils.db import supabase
-from utils.helpers import get_branches
+# No need to import get_branches – we fetch branches directly
 
 # Import page render functions
 from pages.page_dashboard import render as render_dashboard
@@ -17,7 +17,7 @@ from pages.page_transfers import render as render_transfers
 # ---- AUTHENTICATION ----
 check_auth()
 
-# ---- EMAIL LINK AUTO-MARK (One-Click Done) ----
+# ---- EMAIL LINK AUTO-MARK ----
 params = st.query_params
 if "alert_id" in params and "action" in params:
     alert_id = params["alert_id"][0] if isinstance(params["alert_id"], list) else params["alert_id"]
@@ -29,7 +29,7 @@ if "alert_id" in params and "action" in params:
     st.query_params.clear()
     st.rerun()
 
-# ---- GLOBAL BRANCH SELECTOR ----
+# ---- GLOBAL BRANCH SELECTOR (direct Supabase call) ----
 branches_data = supabase.table("branches").select("*").execute().data
 branch_names = [b['name'] for b in branches_data]
 
