@@ -46,15 +46,3 @@ def get_reorder_point(branch_id, product_id):
     reorder = max(5, int(demand * 7))
     safety = max(3, int(demand * 3))
     return reorder, safety
-
-# NEW FUNCTION – fetches all branches and returns (branches_list, branch_names, branch_map)
-def get_branches():
-    """Returns (branches_data, branch_names, branch_options) where:
-       - branches_data: list of all branch dicts
-       - branch_names: list of branch names
-       - branch_options: dict {branch_name: branch_id}
-    """
-    branches_data = supabase.table("branches").select("*").execute().data
-    branch_names = [b['name'] for b in branches_data]
-    branch_options = {b['name']: b['id'] for b in branches_data}
-    return branches_data, branch_names, branch_options
